@@ -14,9 +14,18 @@ import java.util.Map;
 @ControllerAdvice
 public class HandlerExceptions {
 
+
+    // RICERCA ID CHE NON ESISTE
     @ExceptionHandler(value = EntityNotFoundException.class)
     protected ResponseEntity<Object> entityNotFound(EntityNotFoundException e) {
         return new ResponseEntity<>("Error: " + e.getMessage(), HttpStatus.NOT_FOUND);
+    }
+
+
+    // Due PRENOTAZIONI STESSA DATA
+    @ExceptionHandler(value = PrenotazioneOdiernaException.class)
+    protected ResponseEntity<Object> prenotazioneOdierna(PrenotazioneOdiernaException e) {
+        return new ResponseEntity<>("Error: " + e.getMessage(), HttpStatus.BAD_REQUEST);
     }
 
 

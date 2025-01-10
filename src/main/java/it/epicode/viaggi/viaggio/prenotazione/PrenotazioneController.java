@@ -28,7 +28,7 @@ public class PrenotazioneController {
     // CREO UN dIPENDENTE
 
     @PostMapping
-    public ResponseEntity<Prenotazione> creaPreno(@RequestBody PrenotazioneDTO prenoRequest) {
+    public ResponseEntity<Prenotazione> creaPreno(@RequestBody PrenotazioneRequest prenoRequest) {
         return new ResponseEntity<>(prenotazioneSvc.creaPrenotazione(prenoRequest), HttpStatus.CREATED);
     }
 

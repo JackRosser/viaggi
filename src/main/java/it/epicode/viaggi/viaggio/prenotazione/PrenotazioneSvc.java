@@ -2,6 +2,7 @@ package it.epicode.viaggi.viaggio.prenotazione;
 
 import it.epicode.viaggi.dipendente.Dipendente;
 import it.epicode.viaggi.dipendente.DipendenteSvc;
+import it.epicode.viaggi.exceptions.PrenotazioneOdiernaException;
 import it.epicode.viaggi.viaggio.Viaggio;
 import it.epicode.viaggi.viaggio.ViaggioSvc;
 import jakarta.persistence.EntityNotFoundException;
@@ -34,22 +35,33 @@ public class PrenotazioneSvc {
     }
 
 
-    public Prenotazione creaPrenotazione(PrenotazioneDTO prenotazioneDto) {
+    public Prenotazione creaPrenotazione(PrenotazioneRequest prenotazioneRequest) {
+        if (prenotazioneRepo.existsByDipendenteAndDataRichiesta(prenotazioneRequest.getDipendenteId(), prenotazioneRequest.getDataRichiesta())) {
+            throw new PrenotazioneOdiernaException("Il dipendente ha già una prenotazione per la data " + prenotazioneRequest.getDataRichiesta());
+        }
+
         Prenotazione prenotazione = new Prenotazione();
-        BeanUtils.copyProperties(prenotazioneDto, prenotazione);
-        Viaggio viaggio = viaggioSvc.findById(prenotazioneDto.getViaggioId());
-        Dipendente dipendente = dipendenteSvc.findById(prenotazioneDto.getDipendenteId());
+        BeanUtils.copyProperties(prenotazioneRequest, prenotazione);
+        Viaggio viaggio = viaggioSvc.findById(prenotazioneRequest.getViaggioId());
+        Dipendente dipendente = dipendenteSvc.findById(prenotazioneRequest.getDipendenteId());
         prenotazione.setViaggio(viaggio);
         prenotazione.setDipendente(dipendente);
         return prenotazioneRepo.save(prenotazione);
     }
 
 
+
     public Prenotazione updatePrenotazione(Long id, Prenotazione modPrenotazione) {
         Prenotazione prenotazione = findById(id);
-        BeanUtils.copyProperties(modPrenotazione,prenotazione);
+
+        if (prenotazioneRepo.existsByDipendenteAndDataRichiesta(modPrenotazione.getDipendente().getId(), modPrenotazione.getDataRichiesta())) {
+            throw new PrenotazioneOdiernaException("Il dipendente ha già una prenotazione per la data " + modPrenotazione.getDataRichiesta());
+        }
+
+        BeanUtils.copyProperties(modPrenotazione, prenotazione);
         return prenotazioneRepo.save(prenotazione);
     }
+
 
 
     public void deletePrenotazione(Long id) {
