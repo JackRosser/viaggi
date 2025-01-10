@@ -16,17 +16,17 @@ public class Prenotazione {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
-    @Column(nullable = false)
+    @Column(name = "data_richiesta")
     private LocalDate dataRichiesta;
-    @Column(nullable = false)
+    @Column(name = "note_dipendente")
     private String noteDipendente;
 
 
     @ManyToOne
-    @JoinColumn(nullable = false)
+    @JoinColumn(name = "dipendente")
     private Dipendente dipendente;
 
     @ManyToOne
-    @JoinColumn(nullable = false)
+    @JoinColumn(name = "viaggio")
     private Viaggio viaggio;
 }

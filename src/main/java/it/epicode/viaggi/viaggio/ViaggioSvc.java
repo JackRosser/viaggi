@@ -4,14 +4,16 @@ import it.epicode.viaggi.dipendente.Dipendente;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
-@RequiredArgsConstructor
+
 public class ViaggioSvc {
-    private final ViaggioRepo viaggioRepo;
+    @Autowired
+    private  ViaggioRepo viaggioRepo;
 
     // TROVA TUTTI GLI UTENTI
 

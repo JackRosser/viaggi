@@ -2,6 +2,7 @@ package it.epicode.viaggi.viaggio;
 
 import it.epicode.viaggi.dipendente.Dipendente;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -9,9 +10,9 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/viaggi")
-@RequiredArgsConstructor
 public class ViaggioController {
-    private final ViaggioSvc viaggioSvc;
+    @Autowired
+    private  ViaggioSvc viaggioSvc;
 
     // TROVO TUTTI I VIAGGI
 

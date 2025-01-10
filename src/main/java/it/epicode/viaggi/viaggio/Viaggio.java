@@ -16,8 +16,9 @@ public class Viaggio {
     private Long id;
     @Column(nullable = false)
     private String destinazione;
-    @Column(nullable = false)
-    private LocalDate data;
+    @Column(name = "data_partenza")
+    private LocalDate dataPartenza;
+    @Column(name = "stato_viaggio")
     @Enumerated(EnumType.STRING)
     private Stato statoViaggio;
 

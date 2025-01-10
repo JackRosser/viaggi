@@ -2,6 +2,7 @@ package it.epicode.viaggi.dipendente;
 
 import it.epicode.viaggi.viaggio.prenotazione.Prenotazione;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
 import lombok.Data;
 
 @Data
@@ -16,5 +17,10 @@ public class Dipendente {
     private String nome;
     @Column(nullable = false)
     private String cognome;
+    @Email
+    @Column(nullable = false)
+    private String mail;
+    @Column(nullable = false)
+    private String avatar;
 
 }
