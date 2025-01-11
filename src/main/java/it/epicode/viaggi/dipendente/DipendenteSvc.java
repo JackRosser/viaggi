@@ -1,5 +1,6 @@
 package it.epicode.viaggi.dipendente;
 
+import com.cloudinary.Cloudinary;
 import com.fasterxml.jackson.databind.util.BeanUtil;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
@@ -17,6 +18,11 @@ import java.util.List;
 public class DipendenteSvc {
 @Autowired
 private  DipendenteRepo dipendenteRepo;
+@Autowired
+private Cloudinary cloudinary;
+
+
+
 
 // TROVA TUTTI GLI UTENTI
 

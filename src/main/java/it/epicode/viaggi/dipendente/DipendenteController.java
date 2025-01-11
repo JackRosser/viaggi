@@ -32,7 +32,7 @@ public class DipendenteController {
 
    // CREO UN dIPENDENTE
 
-    @PostMapping
+    @PostMapping(consumes = "multipart/form-data")
     public ResponseEntity<Dipendente> creaDipendente(@RequestBody Dipendente dipendente) {
         return ResponseEntity.ok(dipendenteSvc.creaDipendente(dipendente));
     }
