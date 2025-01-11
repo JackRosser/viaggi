@@ -2,14 +2,17 @@ package it.epicode.viaggi.viaggio;
 
 import it.epicode.viaggi.dipendente.Dipendente;
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.validation.annotation.Validated;
 
 import java.util.List;
 
 @Service
+@Validated
 
 public class ViaggioSvc {
     @Autowired
@@ -32,21 +35,21 @@ public class ViaggioSvc {
 
     }
 
-// CREAZIONE DIPENDENTE
+// CREAZIONE viaggio
 
-    public Viaggio creaViaggio(Viaggio viaggio) {
+    public Viaggio creaViaggio(@Valid Viaggio viaggio) {
         return viaggioRepo.save(viaggio);
     }
 
-// MODIFICA DIPENDENTE
+// MODIFICA viaggio
 
-    public Viaggio updateViaggio(Long id, Viaggio modViaggio) {
+    public Viaggio updateViaggio(Long id, @Valid Viaggio modViaggio) {
         Viaggio viaggio = findById(id);
         BeanUtils.copyProperties(modViaggio,viaggio);
         return viaggioRepo.save(viaggio);
     }
 
-// CANCELLA DIPENDENTE
+// CANCELLA viaggio
 
     public void deleteViaggio(Long id) {
         viaggioRepo.deleteById(id);

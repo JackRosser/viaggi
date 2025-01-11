@@ -43,7 +43,7 @@ public Dipendente creaDipendente(@Valid Dipendente dipendente) {
 
 // MODIFICA DIPENDENTE
 
-public Dipendente updateDipendente(@Valid Long id, Dipendente modDipendente) {
+public Dipendente updateDipendente(Long id, @Valid Dipendente modDipendente) {
     Dipendente dipendente = findById(id);
     BeanUtils.copyProperties(modDipendente,dipendente);
     return dipendenteRepo.save(dipendente);

@@ -6,13 +6,16 @@ import it.epicode.viaggi.exceptions.PrenotazioneOdiernaException;
 import it.epicode.viaggi.viaggio.Viaggio;
 import it.epicode.viaggi.viaggio.ViaggioSvc;
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.validation.Valid;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.validation.annotation.Validated;
 
 import java.util.List;
 
 @Service
+@Validated
 public class PrenotazioneSvc {
     @Autowired
     private PrenotazioneRepo prenotazioneRepo;
@@ -35,7 +38,7 @@ public class PrenotazioneSvc {
     }
 
 
-    public Prenotazione creaPrenotazione(PrenotazioneRequest prenotazioneRequest) {
+    public Prenotazione creaPrenotazione(@Valid PrenotazioneRequest prenotazioneRequest) {
         if (prenotazioneRepo.existsByDipendenteAndDataRichiesta(prenotazioneRequest.getDipendenteId(), prenotazioneRequest.getDataRichiesta())) {
             throw new PrenotazioneOdiernaException("Il dipendente ha già una prenotazione per la data " + prenotazioneRequest.getDataRichiesta());
         }
@@ -51,7 +54,7 @@ public class PrenotazioneSvc {
 
 
 
-    public Prenotazione updatePrenotazione(Long id, Prenotazione modPrenotazione) {
+    public Prenotazione updatePrenotazione(Long id, @Valid Prenotazione modPrenotazione) {
         Prenotazione prenotazione = findById(id);
 
         if (prenotazioneRepo.existsByDipendenteAndDataRichiesta(modPrenotazione.getDipendente().getId(), modPrenotazione.getDataRichiesta())) {
