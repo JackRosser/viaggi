@@ -13,6 +13,7 @@ import java.util.List;
 
 
 @Service
+@Validated
 public class DipendenteSvc {
 @Autowired
 private  DipendenteRepo dipendenteRepo;
@@ -36,13 +37,13 @@ public Dipendente findById(Long id) {
 
 // CREAZIONE DIPENDENTE
 
-public Dipendente creaDipendente(Dipendente dipendente) {
+public Dipendente creaDipendente(@Valid Dipendente dipendente) {
     return dipendenteRepo.save(dipendente);
 }
 
 // MODIFICA DIPENDENTE
 
-public Dipendente updateDipendente(Long id, Dipendente modDipendente) {
+public Dipendente updateDipendente(@Valid Long id, Dipendente modDipendente) {
     Dipendente dipendente = findById(id);
     BeanUtils.copyProperties(modDipendente,dipendente);
     return dipendenteRepo.save(dipendente);
