@@ -1,10 +1,14 @@
 package it.epicode.viaggi.dipendente;
 
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.Content;
+import it.epicode.viaggi.cloudinary.CloudinarySvc;
 import lombok.RequiredArgsConstructor;
 import org.hibernate.query.Page;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.awt.print.Pageable;
 import java.util.List;
@@ -15,6 +19,9 @@ import java.util.List;
 public class DipendenteController {
     @Autowired
     private  DipendenteSvc dipendenteSvc;
+
+    @Autowired
+    private CloudinarySvc cloudinarySvc;
 
     // TROVO TUTTI I DIPENDENTI
 
@@ -51,5 +58,19 @@ public class DipendenteController {
         dipendenteSvc.deleteDipendente(id);
         return ResponseEntity.noContent().build();
     }
+
+    // CARICO AVATAR PER UN DIPENDENTE
+    @PostMapping("/{id}/upload-avatar")
+    public ResponseEntity<Dipendente> uploadAvatar(
+            @PathVariable Long id,
+            @Parameter(description = "File immagine avatar", required = true, content = @Content(mediaType = "multipart/form-data"))
+            @RequestParam("avatar") MultipartFile file) {
+
+        Dipendente dipendente = dipendenteSvc.findById(id);
+        String avatarUrl = cloudinarySvc.uploadAvatar(file);
+        dipendente.setAvatar(avatarUrl);
+        return ResponseEntity.ok(dipendenteSvc.updateDipendente(id, dipendente));
+    }
+
 
 }

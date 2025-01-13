@@ -30,4 +30,14 @@ public class CloudinarySvc {
 
     }
 
+    public String uploadAvatar(MultipartFile file) {
+        try {
+            Map result = cloudinary.uploader().upload(file.getBytes(), Cloudinary.asMap("folder", "avatars"));
+            return (String) result.get("secure_url");
+        } catch (IOException e) {
+            throw new UploadException("Errore durante l'upload dell'avatar: " + file.getOriginalFilename());
+        }
+    }
+
+
 }
