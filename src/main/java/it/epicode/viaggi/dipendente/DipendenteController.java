@@ -6,6 +6,7 @@ import it.epicode.viaggi.cloudinary.CloudinarySvc;
 import lombok.RequiredArgsConstructor;
 import org.hibernate.query.Page;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -59,18 +60,11 @@ public class DipendenteController {
         return ResponseEntity.noContent().build();
     }
 
-    // CARICO AVATAR PER UN DIPENDENTE
-    @PostMapping("/{id}/upload-avatar")
-    public ResponseEntity<Dipendente> uploadAvatar(
-            @PathVariable Long id,
-            @Parameter(description = "File immagine avatar", required = true, content = @Content(mediaType = "multipart/form-data"))
-            @RequestParam("avatar") MultipartFile file) {
+    // MOdIfICO AVATAR PER UN DIPENDENTE
 
-        Dipendente dipendente = dipendenteSvc.findById(id);
-        String avatarUrl = cloudinarySvc.uploadAvatar(file);
-        dipendente.setAvatar(avatarUrl);
-        return ResponseEntity.ok(dipendenteSvc.updateDipendente(id, dipendente));
+    @PatchMapping(path = "/{id}/profilePicture", consumes = "multipart/form-data")
+    public ResponseEntity<String> insertProfilePicture(@PathVariable Long id, @RequestParam("file") MultipartFile file) {
+        return new ResponseEntity<>(dipendenteSvc.insertProfilePicture(id, file), HttpStatus.OK);
     }
-
 
 }
